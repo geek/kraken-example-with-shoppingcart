@@ -32,9 +32,11 @@
   "homepage": "http://krakenjs.com/",
   "dependencies": {
     "anemone": "^1.0.0",
-    "bundalo": "^0.2.4",
+    "bundalo": "1.0.0-rc.2",
+    "bundalo-intl-formatter": "0.0.1",
     "debuglog": "^1.0.1",
     "express": "^4.3.0",
+    "kraken-format-path": "^1.0.0",
     "kraken-js": "^1.0.1",
     "localeresolver": "^0.1.1",
     "makara": "^2.0.3",

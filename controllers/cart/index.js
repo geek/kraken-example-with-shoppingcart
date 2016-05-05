@@ -1,7 +1,7 @@
 'use strict';
 var Product = require('../../models/productModel');
 var getBundle = require('../../lib/getBundle');
-
+var normalocator = require('../../lib/normalocator');
 module.exports = function (router) {
 
 	/**
@@ -15,11 +15,14 @@ module.exports = function (router) {
 			total = 0;
 		var locals = res.locals;
 		var i18n = res.app.kraken.get('i18n');
-		var locality = locals && locals.context && locals.context.locality || i18n.fallback;
-		var cartLength;
+		var locality = normalocator.toStr(locals && locals.context && locals.context.locality || i18n.fallback);
+		var cartLength = 0;
 		if (!cart) {
-			res.bundle.get({'bundle': 'messages', 'model': {}, 'locality': locality}, function bundleReturn(err, messages) {
-				res.render('result', {result: messages.empty, continueMessage: messages.keepShopping});
+			res.bundle.raw.get({'bundle': 'messages', 'locality': locality}, function bundleReturn(err, messages) {
+				if (err) {
+					console.error(err.stack);
+				}
+				res.render('result', {result: messages.get('empty'), continueMessage: messages.get('keepShopping')});
 			});
 
 			return;
@@ -27,17 +30,16 @@ module.exports = function (router) {
 
 		//Ready the products for display
 		for (var item in cart) {
+			cartLength += cart[item].qty;
 			displayCart.items.push(cart[item]);
 			total += (cart[item].qty * cart[item].price);
 		}
 		req.session.total = displayCart.total = total.toFixed(2);
-		cartLength = Object.keys(cart).length;
-		var model =
-		{
+		var model = {
 			cart: displayCart
 		};
-		res.bundle.get({'bundle': 'messages', 'model': {'cartItemLength': cartLength}, 'locality': locality}, function bundleReturn(err, messages) {
-			model.itemsInCart = messages.items;
+		res.bundle.fmt.get({'bundle': 'messages', 'locality': locality}, function bundleReturn(err, messages) {
+			model.itemsInCart = messages.get('items').format({cartItemLength: cartLength});
 			res.render('cart', model);
 		});
 
