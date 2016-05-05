@@ -32,10 +32,10 @@
   "homepage": "http://krakenjs.com/",
   "dependencies": {
     "anemone": "^1.0.0",
-    "bundalo": "1.0.0-rc.2",
-    "bundalo-intl-formatter": "0.0.1",
+    "bundalo": "1.0.0-rc.1",
     "debuglog": "^1.0.1",
     "express": "^4.3.0",
+    "intl-messageformat": "^1.3.0",
     "kraken-format-path": "^1.0.0",
     "kraken-js": "^1.0.1",
     "localeresolver": "^0.1.1",
@@ -45,6 +45,7 @@
     "paypal-rest-sdk": "^1.5.2",
     "react": "^15.0.2",
     "react-engine": "^3.3.0",
+    "react-router": "^2.4.0",
     "requirejs": "~2.1.11",
     "spundle": "^1.0.3"
   },
